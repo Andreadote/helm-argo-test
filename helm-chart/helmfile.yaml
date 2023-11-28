@@ -1,0 +1,37 @@
+repositories:
+  - name: prometheus
+    url: https://prometheus-community.github.io/helm-charts
+  - name: helloworld
+    url: git+https://github.com/Kenmakhanu/helmfile@helloworld?ref=main&sparse=0
+
+releases:
+  - name: demochart
+    namespace: dev
+    chart: ./demochart
+    installed: false
+    values:
+      - ../../Manifest-to-Helm/demochart/dev/values.yaml
+  - name: demochart1
+    namespace: prod
+    chart: ./demochart2
+    installed: false
+    values:
+          - ../../Manifest-to-Helm/demochart/prod/values.yaml
+  - name: prometheus
+    namespace: prometheus
+    chart: prometheus/prometheus
+    installed: false
+    set:
+      - name: rbac.create
+        value: false
+  - name: prometheus1
+    namespace: prod
+    chart: prometheus/prometheus
+    installed: false
+    set:
+      - name: rbac.create
+        value: true
+  - name: helloworld
+    namespace: dev
+    chart: helloworld/helloworld
+    installed: false
