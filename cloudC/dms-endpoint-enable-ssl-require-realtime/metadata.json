@@ -1,0 +1,113 @@
+{
+  "policy": {
+    "name": "dms-endpoint-enable-ssl-require-realtime",
+    "resource": "dms-endpoint",
+    "description": "If the SSL Mode is none for a DMS Endpoint with engine of sql, mongo, or postgres\nit gets turned on to Require SSL setting\n",
+    "mode": {
+      "type": "cloudtrail",
+      "events": [
+        {
+          "source": "dms.amazonaws.com",
+          "event": "CreateEndpoint",
+          "ids": "responseElements.endpoint.endpointArn"
+        },
+        {
+          "source": "dms.amazonaws.com",
+          "event": "ModifyEndpoint",
+          "ids": "responseElements.endpoint.endpointArn"
+        }
+      ]
+    },
+    "filters": [
+      {
+        "or": [
+          {
+            "SslMode": "none"
+          },
+          {
+            "type": "event",
+            "key": "detail.requestParameters.sslMode",
+            "op": "eq",
+            "value": "none"
+          }
+        ]
+      },
+      {
+        "or": [
+          {
+            "EngineName": "sqlserver"
+          },
+          {
+            "EngineName": "mongodb"
+          },
+          {
+            "EngineName": "postgres"
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "type": "modify-endpoint",
+        "SslMode": "require"
+      }
+    ]
+  },
+  "version": "0.9.32",
+  "execution": {
+    "id": "acdf5798-4f8a-4b45-9379-be8bda59ebc2",
+    "start": 1702928614.8154,
+    "end_time": 1702928615.4078588,
+    "duration": 0.592458963394165
+  },
+  "config": {
+    "region": "us-east-1",
+    "regions": [
+      "us-east-1"
+    ],
+    "cache": "~/.cache/cloud-custodian.cache",
+    "profile": null,
+    "account_id": "109753259968",
+    "assume_role": null,
+    "external_id": null,
+    "log_group": null,
+    "tracer": null,
+    "metrics_enabled": null,
+    "metrics": null,
+    "output_dir": ".",
+    "cache_period": 15,
+    "dryrun": true,
+    "authorization_file": null,
+    "subparser": "run",
+    "config": null,
+    "configs": [
+      "db.yml"
+    ],
+    "policy_filters": [],
+    "resource_types": [],
+    "verbose": null,
+    "quiet": null,
+    "debug": false,
+    "skip_validation": false,
+    "command": "c7n.commands.run",
+    "vars": null
+  },
+  "sys-stats": {},
+  "api-stats": {
+    "dms.DescribeEndpoints": 1
+  },
+  "metrics": [
+    {
+      "MetricName": "ResourceCount",
+      "Timestamp": "2023-12-18T13:43:35.407498",
+      "Value": 0,
+      "Unit": "Count"
+    },
+    {
+      "MetricName": "ResourceTime",
+      "Timestamp": "2023-12-18T13:43:35.407513",
+      "Value": 0.58642578125,
+      "Unit": "Seconds"
+    }
+  ]
+}

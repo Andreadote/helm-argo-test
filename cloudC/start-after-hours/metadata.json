@@ -1,0 +1,79 @@
+{
+  "policy": {
+    "name": "start-after-hours",
+    "resource": "ec2",
+    "filters": [
+      {
+        "type": "onhour",
+        "tag": "CustodianOffHours",
+        "default_tz": "pt",
+        "onhour": 7
+      },
+      {
+        "type": "value",
+        "value": 1,
+        "key": "LaunchTime",
+        "op": "less-than",
+        "value_type": "age"
+      }
+    ],
+    "actions": [
+      "start"
+    ]
+  },
+  "version": "0.9.32",
+  "execution": {
+    "id": "9acbf160-62cb-455c-a681-2b8cac4993d7",
+    "start": 1702928601.951118,
+    "end_time": 1702928601.952675,
+    "duration": 0.0015571117401123047
+  },
+  "config": {
+    "region": "us-east-1",
+    "regions": [
+      "us-east-1"
+    ],
+    "cache": "~/.cache/cloud-custodian.cache",
+    "profile": null,
+    "account_id": "109753259968",
+    "assume_role": null,
+    "external_id": null,
+    "log_group": null,
+    "tracer": null,
+    "metrics_enabled": null,
+    "metrics": null,
+    "output_dir": ".",
+    "cache_period": 15,
+    "dryrun": true,
+    "authorization_file": null,
+    "subparser": "run",
+    "config": null,
+    "configs": [
+      "policy.yml"
+    ],
+    "policy_filters": [],
+    "resource_types": [],
+    "verbose": null,
+    "quiet": null,
+    "debug": false,
+    "skip_validation": false,
+    "command": "c7n.commands.run",
+    "vars": null
+  },
+  "sys-stats": {},
+  "api-stats": {},
+  "metrics": [
+    {
+      "MetricName": "ResourceCount",
+      "Timestamp": "2023-12-18T13:43:21.952414",
+      "Value": 0,
+      "Unit": "Count"
+    },
+    {
+      "MetricName": "ResourceTime",
+      "Timestamp": "2023-12-18T13:43:21.952424",
+      "Value": 0.0006861686706542969,
+      "Unit": "Seconds"
+    }
+  ]
+}
